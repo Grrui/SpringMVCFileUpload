@@ -1,22 +1,18 @@
 package ustc.gr.controller;
 
 import org.apache.commons.io.FileUtils;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,27 +22,26 @@ import java.util.List;
  * Created by Black on 2017/4/2.
  */
 @Controller
-@SessionAttributes("files")
 public class FileUploadController {
 
-    @RequestMapping(value="/{formName}")
+    @RequestMapping(value="/uploadForm")
     public String loginForm(
-            @PathVariable String formName,
             HttpServletRequest request,
             Model model) {
-        String path = request.getServletContext().getRealPath("/images/");
-        File file = new File(path);
-        File[] fileList = file.listFiles();
-        List<String> files = new ArrayList<>();
-        System.out.println("该目录下对象个数：" + fileList.length);
-        for (int i = 0; i < fileList.length; i++) {
-            if (fileList[i].isFile()) {
-                System.out.println("文     件：" + fileList[i].getName());
-                files.add(fileList[i].getName());
-            }
-        }
-        model.addAttribute("files",files);
-        return formName;
+
+//        String path = request.getServletContext().getRealPath("/images/");
+//        File file = new File(path);
+//        File[] fileList = file.listFiles();
+//        List<String> files = new ArrayList<>();
+//        System.out.println("该目录下对象个数：" + fileList.length);
+//        for (int i = 0; i < fileList.length; i++) {
+//            if (fileList[i].isFile()) {
+//                System.out.println("文     件：" + fileList[i].getName());
+//                files.add(fileList[i].getName());
+//            }
+//        }
+//        model.addAttribute("files",files);
+        return "uploadForm";
     }
 
     @RequestMapping(value = "/upload",method = RequestMethod.POST)
@@ -55,7 +50,7 @@ public class FileUploadController {
             @RequestParam("description") String description,
             @RequestParam("file") MultipartFile file,
             Model model
-    ) throws IOException{
+    ) throws IOException {
         System.out.println("文件描述："+description);
         //文件不为空，写上上传路径
         if(!file.isEmpty()){
@@ -90,6 +85,7 @@ public class FileUploadController {
         return "error";
     }
 
+
     @RequestMapping(value = "/download")
     public ResponseEntity<byte[]> download(
             HttpServletRequest request,
@@ -108,5 +104,4 @@ public class FileUploadController {
         //201 HttpStatus.CREATED
         return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),headers, HttpStatus.CREATED);
     }
-
 }

@@ -24,6 +24,16 @@
 			<value>UTF-8</value>
 		</property>
 	</bean>
+
+	<!--SpringMVC拦截器定义-->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<!-- 拦截所有请求 -->
+			<mvc:mapping path="/*"/>
+			<!-- 用自己的拦截器处理 -->
+			<bean class="ustc.gr.interceptor.AuthorizationIntercept"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
 	<!-- 装配自定义类型转换器 -->
 	<!--<mvc:annotation-driven conversion-service="conversionService"/>-->
 	<!--<bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">-->
