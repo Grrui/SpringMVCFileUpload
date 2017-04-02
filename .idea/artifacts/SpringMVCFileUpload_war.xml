@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="SpringMVCFileUpload:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="SpringMVCFileUpload.war">
+      <element id="artifact" artifact-name="SpringMVCFileUpload:war exploded" />
+    </root>
+  </artifact>
+</component>
